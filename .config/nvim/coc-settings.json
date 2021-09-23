@@ -1,0 +1,17 @@
+ {
+   "clangd.arguments": [
+        "-log=verbose",
+        "--completion-style=detailed",
+        "-pretty",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=never",
+        "--suggest-missing-includes",
+        "--compile-commands-dir=build"
+   ],
+   "clangd.fallbackFlags":[
+        "-stdlib=libc++",
+        "-std=c++17"
+   ],
+   "clangd.semanticHighlighting": true
+}
