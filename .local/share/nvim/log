@@ -1,0 +1,5 @@
+ERROR 2021-06-04T12:56:25.745 7220  buf_updates_send_changes:230: Disabling buffer updates for dead channel 3
+ERROR 2021-06-04T12:56:33.569 7220  buf_updates_send_changes:230: Disabling buffer updates for dead channel 3
+ERROR 2021-06-04T21:58:45.799 176843 buf_updates_send_changes:230: Disabling buffer updates for dead channel 3
+ERROR 2021-06-04T21:59:24.680 176843 buf_updates_send_changes:230: Disabling buffer updates for dead channel 3
+ERROR 2021-06-05T20:01:46.619 143172 buf_updates_send_changes:230: Disabling buffer updates for dead channel 3

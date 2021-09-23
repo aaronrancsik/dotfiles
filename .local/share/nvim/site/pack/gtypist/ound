@@ -1,0 +1,118 @@
+typespeed(6)                                                    Games                                                    typespeed(6)
+
+NNAAMMEE
+       typespeed - Test your typing speed and get your fingers' CPS.
+
+SSYYNNOOPPSSIISS
+       ttyyppeessppeeeedd [[OOPPTTIIOONN]]
+
+DDEESSCCRRIIPPTTIIOONN
+       Typespeed gives your fingers' cps (total and correct), typoratio and some points to compare with your friends.
+
+       Typespeed's  idea  is  ripped from ztspeed (a dos game made by Zorlim).  Idea of the game should be clear to anyone, just type
+       and type it fast or be a loser.
+
+UUSSAAGGEE
+       The basics are simple: words, which are extracted out of a specified word list, fly from the left to the right. Your  task  is
+       in  any  case  to  write them down before they reach the right side and disappear, in which case your miss counter will be in‐
+       creased. Should you have missed 10 words, the game will end. Each correct input will increase your high score, where one char‐
+       acter  of  the  word  is exactly one point, i.e. a longer word results in more points. Your total CPS and your correct CPS are
+       displayed during game play. Total CPS means all your input, whereas correct CPS only counts characters, that you have  entered
+       to  write  a correct word. To enter the words, you can also use emacs-like control sequences (^A jumps to the beginning of the
+       string, ^B goes back one character, ^E jumps to the end of string, ^F moves cursor one position to the left (except cursor  is
+       at  end  of  string), ^K deletes all characters behind cursor, ^U clears input field). Should you have enabled cheat mode (you
+       can see CHE in status line then), you don't have to complete your input by pressing ENTER or SPACE.
+
+       If you have played typespeed with these default rules far too long and you want something new, you can create  your  own  rule
+       sets! There are three rule sets supplied since 0.6.1:
+
+       The first rule contains default settings. You can play this mode when you don't supply any options and just start the game. In
+       this mode, speed will increase whenever you enter a correct word. At the end of the game, you can get a rank in  your  top  10
+       list for the specified word list.
+
+       Settings have changed in 0.6.0. If you want to play with old rules (typespeed 0.4.4 - 0.5.3), you can choose classic.
+
+       The third rule set is training - speed won't increase.
+
+       If  you  have  other ideas, you can supply your own rule set or change the settings in menu "Game Rules". Feel free to send in
+       some fancy rules.
+
+       Also, you can play typespeed in multiplayer. In this mode you can play against one opponent  over  TCP/IPv4.  Both  sides  can
+       choose  a  word list, should you type in a correct word and your opponent can handle more words (based upon his current stat),
+       there is a possibility that your typed word will be thrown into his game. But remember, the same goes for you! In  this  mode,
+       no rank can be achieved in your (or opponent's) top 10 list. During multiplayer, you cannot press CURSOR UP to pause the game,
+       instead CURSOR UP will immediately result in a game over. You cannot play custom rule sets in multiplayer.
+
+OOPPTTIIOONNSS
+       ----cchheeaatt
+              This will enable the cheat, which wraps words instantly when they are  written  correctly.  You  don't  need  to  press
+              space/enter. It is another question if this "cheat" actually helps...
+
+       ----cclliieenntt==aaddddrr
+              Start typespeed in client mode (where addr is network address of server) Typespeed will try to connect to the given ad‐
+              dress and start network play.
+
+       ----nneettlloogg==ffiillee
+              For debugging purposes. The whole network data is written into file. If you have issues  with  network  gaming,  attach
+              this file to a bug report mail.
+
+       ----nnooccoolloorrss
+              Turns off the curses colors. It can be a more clear way to play the game in some situations.
+
+       ----ppoorrtt==ppoorrtt
+              Tells what TCP/IPv4 port will typespeed be using in the network play. The default port is 6025.
+
+       ----sseerrvveerr
+              Start typespeed in server mode. Typespeed will wait for other player to connect.
+
+       ----hheellpp Little explanation of the parameters.
+
+CCOONNFFIIGGUURRAATTIIOONN FFIILLEESS
+       //eettcc//ttyyppeessppeeeeddrrcc
+
+       $$HHOOMMEE//..ttyyppeessppeeeedd//ccoonnffiigg
+
+       In these files, you can specify the location of directories for game rules and word lists. You can also activate cheat mode in
+       these files if you write "cheat = yes". If you create a configuration file in your home directory, you must also create a file
+       called  $HOME/.typespeed/score.  All  your personal high scores are stored in this file, not anymore in system wide high score
+       file. This is needed to prevent malicious users to pretend to have 1000 points in e.g.  words.eng whereby directory  for  word
+       lists has been changed. In order to compete with system-wide users, you have to remove your personal configuration file.
+
+WWOORRDD LLIISSTTSS
+       If you would like to create your own word list, you have to follow these simple rules:
+
+       The  first  line contains the description that will be listed in word list selection menu. You cannot use more than 60 charac‐
+       ters.
+
+       A word list must consist of at least 22 different words, i.e. no duplicated words. The words must not be longer than 19  char‐
+       acters.   Should  they  be  longer, they won't be parsed; instead they are silently dropped. Words must not contain escape se‐
+       quences, tabs or spaces. These words will be dropped, too.
+
+       Blank lines will be ignored.
+
+       If you would like to see your created word list included into next release, please send me an e-mail (tobias@bugol.de).
+
+NNOOTTEESS
+       Do not use typespeed version 0.5.2 or higher with a version < 0.5.2.  The usage of network control words has been changed,  so
+       you could not end games.
+
+       If  you  have used typespeed < 0.6.0 and you wish to use your high scores in newer versions, you have to convert them into new
+       format.  ccoonnvveerrtt can be used for this task.  ccoonnvveerrtt takes two arguments: the old high score directory and the new high  score
+       file. Due to changed high score file format, it is expected that converted scores (especially cps) differ.
+
+AAUUTTHHOORRSS
+       Written by Jani Ollikainen <bestis@iki.fi>, Jaakko Manelius <jman@iki.fi>, and Tobias Stoeckmann <tobias@bugol.de>.
+
+RREEPPOORRTTIINNGG BBUUGGSS
+       Report bugs to <tobias@bugol.de>.
+
+CCOOPPYYRRIIGGHHTT
+       Copyright (C) 1999-2003   Jani Ollikainen  <bestis@iki.fi>
+                                 Jaakko Manelius  <jman@iki.fi>
+
+       Copyright (C) 2006-2007   Tobias Stoeckmann  <tobias@bugol.de>
+
+       Copying  and distribution of this file, with or without modification, are permitted in any medium without royalty provided the
+       copyright notice and this notice are preserved.
+
+typespeed v0.6.5                                             August 2008                                                 typespeed(6)
