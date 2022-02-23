@@ -1,1 +1,6 @@
+clangd.install
+clangd.update
+cmake.onlineHelp
+clangd.projectConfig
+clangd.userConfig
 cSpell.disableForWorkspace

@@ -1,9 +1,14 @@
 .default-decoration .titlebutton {
-    min-height: 0px; /* tweak these two props to reduce button size */
+    min-height: 0px;
     min-width: 0px;
 }
 
 window.ssd headerbar.titlebar {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    min-height: 0;
+}
+window.csd headerbar.titlebar {
     padding-top: 0px;
     padding-bottom: 0px;
     min-height: 0;
@@ -14,4 +19,8 @@ window.ssd headerbar.titlebar button.titlebutton {
     min-height: 4px;
 }
 
+window.csd headerbar.titlebar button.titlebutton {
+    padding: 3px;
+    min-height: 4px;
+}
 
