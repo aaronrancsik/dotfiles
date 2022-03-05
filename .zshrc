@@ -124,18 +124,24 @@ zle -N zle-keymap-select
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2> /dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
 
-# Better vim mode I guess
+# zsh-vi-mode
+##############################################
+# pre settigns
 function zvm_config() {
  ZVM_INIT_MODE=sourcing
 }
+# zsh-vi-mode
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-
+# post settings
 ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
 ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
+##############################################
 
-# FZF
+# fzf
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
+
+bindkey -M vicmd '^R' fzf-history-widget
 
 # Created by `userpath` on 2021-10-27 22:18:56
 export PATH="$PATH:/home/aaron/.local/bin"
