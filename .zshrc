@@ -34,7 +34,7 @@ autoload -Uz promptinit
 promptinit
 setopt prompt_subst
 prompt_mytheme_setup() {
-  PS1='%F{2}%f %F{7}%c%f $(git_branch_name)%F{2}≫  %f'
+  PS1='%F{2}🥑%f %F{7}%c%f $(git_branch_name)%F{2}≫  %f'
 }
 # Add the theme to promptsys
 prompt_themes+=( mytheme )
@@ -77,6 +77,7 @@ export CXX=clang++
 # Aliases
 # General
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+compdef config='git'
 alias ll='ls -lah'
 alias ta='tmux attach'
 # vim
