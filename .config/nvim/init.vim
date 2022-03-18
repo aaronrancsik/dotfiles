@@ -2,7 +2,8 @@ set nocompatible
 syntax on
 filetype plugin on
 
-set autoread                                                                                                                                                                                    
+" set laststatus 3 "soon it will be available
+
 au CursorHold * checktime
 
 if exists('+termguicolors')
@@ -145,6 +146,12 @@ let g:vscode_transparency = 1
 " Enable italic comment
 let g:vscode_italic_comment = 1
 colorscheme codedark
+
+" undercurl after theme
+hi CocUnderline gui=undercurl term=undercurl
+hi CocErrorHighlight gui=undercurl term=undercurl guisp=red
+hi CocWarningHighlight gui=undercurl term=undercurl guisp=yellow
+
 
 nm <silent> <F1> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
     \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
