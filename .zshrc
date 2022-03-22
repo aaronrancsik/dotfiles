@@ -80,6 +80,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 compdef config='git'
 alias ll='ls -lah'
 alias ta='tmux attach'
+alias less='less -r'
 # vim
 alias vim='nvim'
 export EDITOR=nvim
@@ -138,11 +139,18 @@ ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
 ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
 ##############################################
 
+export BAT_THEME="Visual Studio Dark+" 
 # fzf
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
 bindkey -M vicmd '^R' fzf-history-widget
+
+# FZF respect .gitignore and also search in hidden files
+# Setting fd as the default source for fzf
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Created by `userpath` on 2021-10-27 22:18:56
 export PATH="$PATH:/home/aaron/.local/bin"

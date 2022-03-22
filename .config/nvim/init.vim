@@ -1,16 +1,43 @@
+" every vim config has this
 set nocompatible
+
+" enable vim syntax highlight
 syntax on
+
+" line numbers
+set number 
+
+" built in vim plugs
 filetype plugin on
 
 " set laststatus 3 "soon it will be available
 
-au CursorHold * checktime
+" check if file modified twice
+" au CursorHold * checktime
 
+" 24 bit colors
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
+
+nnoremap <C-P> :Files <CR>
+
+" remove big INSERT msg
+set noshowmode
+
+" Who wants an 8 character tab? Not me!
+set shiftwidth=2
+set softtabstop=2
+
+" Spaces are better than a tab character
+set expandtab
+set smarttab
+
+" better with long lines
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 
 " automatic session management ugly proof of concept a decent plugin needed
 fu! SaveSessIfExist()
@@ -39,22 +66,11 @@ endfunction
 autocmd VimLeave * call SaveSessIfExist()
 autocmd VimEnter * nested call RestoreSess()
 
-
-"Basic rename function
+"Basic rename function just in case
 " For local replace
 nnoremap ggr gd[{V%::s/<C-R>///gc<left><left><left>
 " For global replace
 nnoremap ggR gD:%s/<C-R>///gc<left><left><left>
-
-set number 
-" Spaces are better than a tab character
-set expandtab
-set smarttab
-
-" better with long lines
-nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
-nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
-
 " " Copy to clipboard
 vnoremap  <leader>y  "+y
 nnoremap  <leader>Y  "+yg_
@@ -67,12 +83,14 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
-set noshowmode
+" reselect after ident
+:vnoremap < <gv
+:vnoremap > >gv
 
-" Who wants an 8 character tab? Not me!
-set shiftwidth=2
-set softtabstop=2
+" ident lines that start with #
+autocmd FileType cpp set cinkeys-=0#
 
+" restore cursor on exit
 augroup RestoreCursorShapeOnExit
     autocmd!
     autocmd VimLeave * set guicursor=a:hor20
@@ -87,7 +105,7 @@ source $HOME/.config/nvim/plug-config/coc.vim
 call plug#begin('~/.vim/plugged')
 Plug 'p00f/clangd_extensions.nvim'
 Plug 'cdelledonne/vim-cmake'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'aaronrancsik/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -98,7 +116,7 @@ Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'tomasiser/vim-code-dark'
+Plug 'aaronrancsik/vim-code-dark'
 Plug 'doums/barow'
 Plug 'doums/barowLSP'
 " Plug 'aaronrancsik/barowGit'
@@ -106,6 +124,8 @@ Plug 'sunaku/tmux-navigate'
 Plug 'preservim/nerdcommenter'
 Plug 'psliwka/vim-smoothie'
 Plug 'lambdalisue/suda.vim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'folke/which-key.nvim'
 call plug#end()
 
 " new syntax highlight
@@ -126,10 +146,15 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
+require'colorizer'.setup()
+
+require("which-key").setup {
+  -- your configuration comes here
+  -- or leave it empty to use the default settings
+  -- refer to the configuration section below
+}
 
 EOF
-
-
 
 
 " cmake
@@ -149,14 +174,22 @@ colorscheme codedark
 
 " undercurl after theme
 hi CocUnderline gui=undercurl term=undercurl
-hi CocErrorHighlight gui=undercurl term=undercurl guisp=red
-hi CocWarningHighlight gui=undercurl term=undercurl guisp=yellow
+hi CocErrorHighlight gui=undercurl term=undercurl guisp=#F44747
+hi CocWarningHighlight gui=undercurl term=undercurl guisp=#CCA700
 
 
 nm <silent> <F1> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name")
     \ . '> trans<' . synIDattr(synID(line("."),col("."),0),"name")
     \ . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")
     \ . ">"<CR>
+
+function! s:EditAlternate()
+    let l:alter = CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://'.expand("%:p")})
+    " remove file:/// from response
+    let l:alter = substitute(l:alter, "file://", "", "")
+    execute 'edit ' . l:alter
+endfunction
+autocmd FileType cpp nmap <M-o> :call <SID>EditAlternate()<CR>
 
 " make theme bg transparent
  hi Normal           ctermbg=none guibg=none

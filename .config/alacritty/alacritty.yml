@@ -23,6 +23,8 @@ env:
   # available, otherwise `xterm-256color` is used.
   # TERM: xterm-256color
   TERM: alacritty
+  # TERM: xterm-256color
+
 
 window:
   opacity: 1
@@ -52,7 +54,7 @@ window:
     y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -113,7 +115,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: 'Source Code Pro'
+    # family: 'ProggyDotted'
+    family: 'JetBrains Mono'
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -124,7 +127,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: 'Source Code Pro'
+    # family: 'Source Code Pro'
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -135,7 +138,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: 'Source Code Pro'
+    # family: 'Source Code Pro'
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -146,13 +149,13 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: 'Source Code Pro'
+    # family: 'Source Code Pro'
 
     # The `style` can be specified to pick a specific face.
     style: Bold Italic
 
   # Point size
-  size: 13
+  size: 12
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -180,7 +183,8 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '#171717'
+    # background: '#1E1E1E'
+    background: '#1E1E1E'
     foreground: '0xC6C6C4'
 
   # Normal colors
@@ -290,7 +294,7 @@ cursor:
   #vi_mode_style: None
 
   # Cursor blinking interval in milliseconds.
-  blink_interval: 180
+  blink_interval: 337
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
