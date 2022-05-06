@@ -22,6 +22,9 @@ set smarttab
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 
+nnoremap <C-d> 20j
+nnoremap <C-u> 20k
+
 "Basic rename function just in case
 " For local replace
 nnoremap ggr gd[{V%::s/<C-R>///gc<left><left><left>
@@ -67,7 +70,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'doums/barowLSP'
 " Plug 'sunaku/tmux-navigate'
 Plug 'preservim/nerdcommenter'
-Plug 'psliwka/vim-smoothie'
+" Plug 'psliwka/vim-smoothie'
 " Plug 'lambdalisue/suda.vim'
 " Plug 'norcalli/nvim-colorizer.lua'
 " Plug 'folke/which-key.nvim'
@@ -163,10 +166,10 @@ map <C-_> <plug>NERDCommenterToggle
 
 
 " smooth scroll
-let g:smoothie_speed_linear_factor = 20
-let g:smoothie_speed_constant_factor = 10
-let g:smoothie_speed_exponentiation_factor = 0.99
-let g:smoothie_update_interval = 10
+" let g:smoothie_speed_linear_factor = 20
+" let g:smoothie_speed_constant_factor = 10
+" let g:smoothie_speed_exponentiation_factor = 0.99
+" let g:smoothie_update_interval = 10
 
 " blamer
 " let g:blamer_enabled = 1

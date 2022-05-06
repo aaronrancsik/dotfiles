@@ -7,13 +7,13 @@ syntax on
 " line numbers
 set number 
 
+" highlight line number
+set cursorline 
+
 " built in vim plugs
 filetype plugin on
 
-" set laststatus 3 "soon it will be available
-
-" check if file modified twice
-" au CursorHold * checktime
+set laststatus=3 "soon it will be available
 
 " 24 bit colors
 if exists('+termguicolors')
@@ -22,7 +22,33 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-nnoremap <C-P> :Files <CR>
+" Function to prevent FZF commands from opening in functional buffers
+"
+" See: https://github.com/junegunn/fzf/issues/453
+" TODO: Remove once this workaround is no longer necessary.
+function! FZFOpen(cmd)
+    " Define the functional buffer types that we want to not clobber
+    let functional_buf_types = ['quickfix', 'help', 'nofile', 'terminal']
+
+    " If more than 1 window, and buffer type is not one of the functional types
+    if winnr('$') > 1 && (index(functional_buf_types, &bt) >= 0)
+        " Find all 'normal' (not functional) buffer windows
+        let norm_wins = filter(range(1, winnr('$')),
+                    \ 'index(functional_buf_types, getbufvar(winbufnr(v:val), "&bt")) == -1')
+
+        " Grab the first one that we can use
+        let norm_win = !empty(norm_wins) ? norm_wins[0] : 0
+
+        " Move to that window
+        exe norm_win . 'winc w'
+    endif
+
+    " Execute the passed command
+    exe a:cmd
+endfunction
+
+" Map CTRL+P to open FZF
+nmap <C-P> :call FZFOpen(':Files')<CR>
 
 " remove big INSERT msg
 set noshowmode
@@ -38,6 +64,14 @@ set smarttab
 " better with long lines
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+
+" scroll multyple lines
+nnoremap <C-e> 10<C-e>
+nnoremap <C-y> 10<C-y>
+
+" buffers 
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
 
 " automatic session management ugly proof of concept a decent plugin needed
 fu! SaveSessIfExist()
@@ -110,25 +144,22 @@ Plug 'nvim-treesitter/playground'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'lambdalisue/fern.vim'
-Plug 'aaronrancsik/fern-hijack.vim'
 Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'aaronrancsik/vim-code-dark'
-Plug 'doums/barow'
-Plug 'doums/barowLSP'
-" Plug 'aaronrancsik/barowGit'
+Plug 'feline-nvim/feline.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+
 Plug 'sunaku/tmux-navigate'
 Plug 'preservim/nerdcommenter'
 Plug 'psliwka/vim-smoothie'
 Plug 'lambdalisue/suda.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'folke/which-key.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 call plug#end()
 
-" new syntax highlight
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -146,12 +177,70 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 
+ local my_theme = {
+        fg           = '#D0D0D0',
+        bg           = '#1F1F23',
+        black        = '#1B1B1B',
+        skyblue      = '#50B0F0',
+        cyan         = '#009090',
+        green        = '#60A040',
+        oceanblue    = '#000000',
+        magenta      = '#C26BDB',
+        orange       = '#FF9000',
+        red          = '#D10000',
+        violet       = '#9E93E8',
+        white        = '#FFFFFF',
+        yellow       = '#E1E120'
+    }
+
+require('feline').setup()
+require('feline').use_theme(my_theme)
+
 require'colorizer'.setup()
 
-require("which-key").setup {
-  -- your configuration comes here
-  -- or leave it empty to use the default settings
-  -- refer to the configuration section below
+require("which-key").setup {}
+
+require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '▐', numhl='GiSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '▐', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '▁', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+
+    topdelete    = {hl = 'GitSignsDelete', text = '▔', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000,
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+  yadm = {
+    enable = false
+  },
 }
 
 EOF
@@ -236,15 +325,3 @@ augroup my-glyph-palette
   autocmd! *
   autocmd FileType fern call glyph_palette#apply()
 augroup END
-
-" barow
-  " \    [ 'barowGit#branch', 'StatusLine' ],
-let g:barow = {
-      \  'modules': [
-      \    [ 'barowLSP#error', 'BarowError' ],
-      \    [ 'barowLSP#warning', 'BarowWarning' ],
-      \    [ 'barowLSP#info', 'BarowInfo' ],
-      \    [ 'barowLSP#hint', 'BarowHint' ],
-      \    [ 'barowLSP#coc_status', 'StatusLine' ]
-      \  ]
-      \}
