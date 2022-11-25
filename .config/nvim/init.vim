@@ -139,7 +139,7 @@ source $HOME/.config/nvim/plug-config/coc.vim
 call plug#begin('~/.vim/plugged')
 Plug 'p00f/clangd_extensions.nvim'
 Plug 'cdelledonne/vim-cmake'
-Plug 'aaronrancsik/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'aaronrancsik/nvim-treesitter', {'do': ':TSUpdate', 'branch': 'c-cpp-colorful-highlight'}
 Plug 'nvim-treesitter/playground'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -147,7 +147,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'aaronrancsik/vim-code-dark'
+Plug 'Mofiqul/vscode.nvim'
 Plug 'feline-nvim/feline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -158,12 +158,13 @@ Plug 'lambdalisue/suda.vim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'folke/which-key.nvim'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'p00f/nvim-ts-rainbow'
 call plug#end()
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "maintained",
+  ensure_installed = "all",
   -- Install languages synchronously (only applied to `ensure_installed`)
   sync_install = false,
   -- List of parsers to ignore installing
@@ -243,6 +244,49 @@ require('gitsigns').setup {
   },
 }
 
+-- Theme
+-- For dark theme (neovim's default)
+vim.o.background = 'dark'
+
+local c = require('vscode.colors')
+require('vscode').setup({
+    -- Enable transparent background
+    transparent = false,
+
+    -- Enable italic comment
+    italic_comments = true,
+
+    -- Disable nvim-tree background color
+    disable_nvimtree_bg = false,
+
+    -- Override colors (see ./lua/vscode/colors.lua)
+    color_overrides = {
+--        vscLineNumber = '#FFFFFF',
+    },
+
+    -- Override highlight groups (see ./lua/vscode/theme.lua)
+    group_overrides = {
+        ['@constant']             = { fg =c.vscBlue,  bg = 'NONE' },
+        ['@constant.macro']       = { fg = c.vscPink, bg = 'NONE' },
+        ['@reference.declarator'] = { fg = c.vscBlue, bg = 'NONE' },
+        ['@pointer.declarator']   = { fg = c.vscBlue, bg = 'NONE' },
+    }
+})
+
+require("nvim-treesitter.configs").setup {
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    colors = {
+      "#FFD700",
+      "#DA70D6",
+      "#179FFF",
+    }, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  }
+}
+
 EOF
 
 
@@ -251,15 +295,6 @@ let g:cmake_link_compile_commands = 1
 nmap <leader>cmg :CMakeGenerate<cr>
 nmap <leader>cmb :CMakeBuild<cr>
 nmap <leader>gt :GTestRunUnderCursor<cr>
-
-" theme
-" For dark theme
-let g:vscode_style = "dark"
-" Enable transparent background.
-let g:vscode_transparency = 1
-" Enable italic comment
-let g:vscode_italic_comment = 1
-colorscheme codedark
 
 " undercurl after theme
 hi CocUnderline gui=undercurl term=undercurl

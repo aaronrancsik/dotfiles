@@ -27,7 +27,7 @@ env:
 
 
 window:
-  opacity: 0.92
+  opacity: 1
   # Window dimensions (changes require restart)
   #
   # Number of lines/columns (not pixels) in the terminal. The number of columns
@@ -54,7 +54,7 @@ window:
     y: 0 
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: true
+  dynamic_padding: false
 
   # Window decorations
   #
@@ -65,7 +65,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background and no title bar buttons
-  decorations: none
+  decorations: full
 
   # Startup Mode (changes require restart)
   #
@@ -95,7 +95,7 @@ window:
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark`
   # and `light`. Set this to `None` to use the default theme variant.
-  gtk_theme_variant: dark 
+  window.decorations_theme_variant: dark
 
 #scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -136,7 +136,7 @@ colors:
   # Default colors
   primary:
     # background: '#1E1E1E'
-    background: '#1E1E1E'
+    background: '#171717'
     foreground: '0xC6C6C4'
 
   # Normal colors
@@ -235,7 +235,7 @@ cursor:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    blinking: Always
+    # blinking: Always
 
   # Vi mode cursor style
   #
@@ -246,7 +246,7 @@ cursor:
   #vi_mode_style: None
 
   # Cursor blinking interval in milliseconds.
-  blink_interval: 337
+  # blink_interval: 337
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
